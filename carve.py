@@ -1,8 +1,6 @@
  #!/usr/bin/python
 
-import sys
 import pytsk3
-import datetime
 import wmi
 import re
 import argparse
