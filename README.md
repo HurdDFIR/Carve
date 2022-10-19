@@ -17,14 +17,12 @@ Carve requires the following Python modules to run.
 The easiest way to install the dependencies is with:
 > pip install -r requirements.txt
 
-## Use
+## How to
 > usage: carve.py [-h] --drive DRIVE_LETTER --dest DESTINATION_DIR [--mft | --no-mft] [--usnj | --no-usnj]
                 [--full_triage | --no-full_triage]
 
-> Collect the $UsnJrnl attributes and $MFT and save it to the destination_dir.
-
 Arguments | Description
---- | --- | ---
+--- | ---
 -h, --help | Show help message and exit
 --drive | Logical drive to extract from (e.g., "F:")
 --dest | Directory to extract files to.
