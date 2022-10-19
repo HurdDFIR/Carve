@@ -23,14 +23,14 @@ The easiest way to install the dependencies is with:
 
 > Collect the $UsnJrnl attributes and $MFT and save it to the destination_dir.
 
-Arguments:
--h, --help | | show this help message and exit
+Arguments | Description
 --- | --- | ---
---drive | DRIVE_LETTER | Logical drive to extract from (e.g., "F:")
---dest | DESTINATION_DIR | Directory to extract files to.
---mft, --no-mft | | Optional. Extracts $MFT.
---usnj, --no-usnj | | Optional. Extracts NTFS $UsnJrnl:$J, $UsnJrnl:$MAX and $LogFile.
---full_triage, --no-full_triage | | Optional. Extracts a full triage of files. Implicitly includes other optional args.
+-h, --help | Show help message and exit
+--drive | Logical drive to extract from (e.g., "F:")
+--dest | Directory to extract files to.
+--mft, --no-mft | Optional. Extracts $MFT.
+--usnj, --no-usnj | Optional. Extracts NTFS $UsnJrnl:$J, $UsnJrnl:$MAX and $LogFile.
+--full_triage, --no-full_triage | Optional. Extracts a full triage of files. Implicitly includes other optional args.
 
 ## License
 
