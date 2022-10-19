@@ -25,7 +25,7 @@ The easiest way to install the dependencies is with:
 
 Arguments:
 -h, --help | | show this help message and exit
-___ | ___ | ___
+--- | --- | ---
 --drive | DRIVE_LETTER | Logical drive to extract from (e.g., "F:")
 --dest | DESTINATION_DIR | Directory to extract files to.
 --mft, --no-mft | | Optional. Extracts $MFT.
