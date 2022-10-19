@@ -1,4 +1,2 @@
-pytsk3
-wmi
-re
-argparse
+pytsk3==20211111
+WMI==1.5.1
