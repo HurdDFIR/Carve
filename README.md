@@ -27,6 +27,7 @@ Arguments | Description
 --full_triage, --no-full_triage | Optional. Extracts a full triage of files.
 
 ##Disclaimer
+
 This tool does not retain ALL of the attributes from the original files. It does it's best to keep metadata such as timestamps. But, some ACL and other information may also be lost. Carve has two functions that will collect files/data. The "normal" or default attempt, will try to keep as much metadata as possible. 
 
 If any of the files fail, then Carve will "carve" them byte for byte into a new file. This will not retain any of the metadata. This is always true for locked system files and alternate data streams. 
