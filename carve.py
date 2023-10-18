@@ -184,7 +184,9 @@ def extract_usnj_attributes(partition_handle, destination_dir, keep_dirstruct):
 
         if keep_dirstruct:
             destination_dir = Path(str(destination_dir) + '\\' + '$Extend\$UsnJrnl')
-            if not destination_dir.exists:
+            os.makedirs(destination_dir)
+
+        if not destination_dir.exists:
                 os.makedirs(destination_dir)
 
         for attribute in usnj:
@@ -210,6 +212,9 @@ def extract_file_attributes(file, attribute, destination_dir):
     :return:
     """
     try:
+        if not destination_dir.exists:
+                os.makedirs(destination_dir)
+
         out_file = open(str(destination_dir) + '\\' + attribute.info.name.decode(), 'w')
         out_file.write("")
         out_file.close()
@@ -387,16 +392,16 @@ def main():
     parser.add_argument('--usnj', action=argparse.BooleanOptionalAction,
                         help='Optional. Extracts NTFS $UsnJrnl:$J, $UsnJrnl:$MAX and $LogFile.')
     parser.add_argument('-t', '--triage', action=argparse.BooleanOptionalAction,
-                        help='Optional. Extracts a triage of files based on the --file_list option.')
+                        help='Optional. Extracts a triage of files based on the --triage-filter option.')
     parser.add_argument('-f','--triage-filter', dest='file_list', action='store', type=str, default=None,
                         help='Required if --triage is used. Provides the path to a list of files to extract. If extraction fails, then it carves the file byte for byte into a new file')
     parser.add_argument('-k','--keep-dirstruct', action=argparse.BooleanOptionalAction,
-                        help='Optional. Keeps the original directory stucture.')
+                        help='Optional. Keeps the source directory stucture.')
     parser.add_argument('-v','--verbose', action=argparse.BooleanOptionalAction,
                         help='Default is False. Enable for debugg logging.')
     args = parser.parse_args()
 
-    l.debug(f'Arguments: {args}')
+    
     logger_setup(args.verbose)
 
     start = time.perf_counter()
@@ -409,7 +414,7 @@ def main():
   \______  /\____|__  / |____|_  /   \__/   /_______  / \n\
          \/         \/         \/           @HurDFIR\/ \n\
 ########################################################{bcolors.ENDC}')
-
+    l.debug(f'Arguments: {args}')
     physical_disk = convert_mount_to_disk(args.drive_letter)
     partition_handle = get_data_partition(physical_disk)
 
