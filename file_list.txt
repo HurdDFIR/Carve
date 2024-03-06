@@ -1,7 +1,0 @@
-\windows\system32\config\*
-\windows\system32\config\regback\*.log*
-\windows\system32\config\regback\sam
-\windows\system32\config\regback\security
-\windows\system32\config\regback\software
-\windows\system32\config\regback\system
-\windows\system32\config\regback\system1
