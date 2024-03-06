@@ -2,7 +2,7 @@ out/*
 *.txt
 *.spec
 tests.py
-build/*
-dist/*
-old/*
+build/
+dist/
+old/
 *.exe
