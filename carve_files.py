@@ -563,7 +563,7 @@ class CarveNetworkFile(CarveGenericFile):
 
 
 class CarveFiles():
-    def __init__(self, file_paths: list, keep_dirstructure=False):
+    def __init__(self, file_paths: list, keep_dirstructure=False, remove_base_root=None):
         if issubclass(type(file_paths[0]), CarveFile):
             self.files = file_paths
         else:
@@ -571,6 +571,7 @@ class CarveFiles():
 
         self.drive_roots = self._get_drive_roots()
         self.keep_dirstructure = keep_dirstructure
+        self.remove_base_root = remove_base_root
 
     def carve_files(self, dest_root, use_vss=True):
         failed_files = []
@@ -597,7 +598,10 @@ class CarveFiles():
                     l.info(f'Carving Generic File : {generic_file.path}')
                     try:
                         if self.keep_dirstructure:
-                            dest_path = dest_root + os.sep + generic_file.drive_letter + os.sep + generic_file.path_no_root
+                            if self.remove_base_root:
+                                dest_path = dest_root + os.sep + str(generic_file.path).replace(self.remove_base_root, '')
+                            else:
+                                dest_path = dest_root + os.sep + generic_file.drive_letter + os.sep + generic_file.path_no_root
                         else:
                             dest_path = dest_root + os.sep + generic_file.name
                         
@@ -648,9 +652,12 @@ class CarveFiles():
                             for vss_handle in vss_handles:
                                 if str(vss_handle._drive_root).lower() == str(locked_file.root).lower():
                                     source_path = vss_handle.path + os.sep + locked_file.path_no_root
-                                    
+
                                     if self.keep_dirstructure:
-                                        dest_path = dest_root + os.sep + locked_file.drive_letter + os.sep + locked_file.path_no_root
+                                        if self.remove_base_root:
+                                            dest_path = dest_root + os.sep + str(locked_file.path).replace(self.remove_base_root, '')
+                                        else:
+                                            dest_path = dest_root + os.sep + locked_file.drive_letter + os.sep + locked_file.path_no_root
                                     else:
                                         dest_path = dest_root + os.sep + locked_file.name
 
@@ -677,7 +684,10 @@ class CarveFiles():
                                 partition_handles[locked_file.drive_letter] = locked_file.get_data_partition()
 
                             if self.keep_dirstructure:
-                                dest_path = dest_root + os.sep + locked_file.drive_letter + os.sep + locked_file.path_no_root
+                                if self.remove_base_root:
+                                    dest_path = dest_root + os.sep + str(locked_file.path).replace(self.remove_base_root, '')
+                                else:
+                                    dest_path = dest_root + os.sep + locked_file.drive_letter + os.sep + locked_file.path_no_root
                             else:
                                 dest_path = dest_root + os.sep + locked_file.name
 
@@ -703,7 +713,10 @@ class CarveFiles():
                                 partition_handles[locked_file.drive_letter] = locked_file.get_data_partition()
                         
                         if self.keep_dirstructure:
-                            dest_path = dest_root + os.sep + file.drive_letter + os.sep + file.path_no_root
+                            if self.remove_base_root:
+                                dest_path = dest_root + os.sep + str(file.path).replace(self.remove_base_root, '')
+                            else:
+                                dest_path = dest_root + os.sep + file.drive_letter + os.sep + file.path_no_root
                         else:
                             dest_path = dest_root + os.sep + file.name
 
@@ -726,7 +739,10 @@ class CarveFiles():
                 l.debug('CarveUsnJrnlFile found!')
                 for usnjrnl in carve_usnjrnl_files:
                     if self.keep_dirstructure:
-                        dest_path = dest_root + os.sep + usnjrnl.drive_letter + os.sep + usnjrnl.path_no_root
+                        if self.remove_base_root:
+                            dest_path = dest_root + os.sep + str(usnjrnl.path).replace(self.remove_base_root, '')
+                        else:
+                            dest_path = dest_root + os.sep + usnjrnl.drive_letter + os.sep + usnjrnl.path_no_root
                     else:
                         dest_path = dest_root + os.sep + usnjrnl.name
                     

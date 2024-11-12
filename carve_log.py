@@ -25,10 +25,11 @@ class ColorCodes:
     reset = "\x1b[0m"
 
 class CustomFormatter(logging.Formatter):
-    format_info = "[*]  %(message)s"
-    format_error = "[!]  %(message)s"
-    format_debug = "[-]  %(message)s"
-    format_critical = "[#]  %(message)s"
+    format_info = "%(levelname)s\t[*]"
+    format_error = "%(levelname)s\t[!]"
+    format_debug = "%(levelname)s\t[-]"
+    format_critical = "%(levelname)s[#]"
+    format = "  %(message)s"
 
     file_format_info = "[*]  %(asctime)s |\t%(levelname)s    \t| %(message)s"
     file_format_error = "[!]  %(asctime)s |\t%(levelname)s   \t| %(message)s"
@@ -36,11 +37,11 @@ class CustomFormatter(logging.Formatter):
     file_format_critical = "[#]  %(asctime)s |\t%(levelname)s\t| %(message)s"
 
     FORMATS = {
-        logging.DEBUG: ColorCodes.blue + format_debug + ColorCodes.reset,
-        logging.INFO:  ColorCodes.green + format_info + ColorCodes.reset,
-        logging.WARNING: bcolors.WARNING + format_info + ColorCodes.reset,
-        logging.ERROR: ColorCodes.bold_red + format_error + ColorCodes.reset,
-        logging.CRITICAL: bcolors.HEADER + format_critical + ColorCodes.reset,
+        logging.DEBUG: ColorCodes.blue + format_debug + ColorCodes.reset + format,
+        logging.INFO:  ColorCodes.green + format_info + ColorCodes.reset + format,
+        logging.WARNING: bcolors.WARNING + format_info + ColorCodes.reset + format,
+        logging.ERROR: ColorCodes.bold_red + format_error + ColorCodes.reset + format,
+        logging.CRITICAL: bcolors.HEADER + format_critical + ColorCodes.reset + format,
     }
     FILE_FORMATS = {
         logging.DEBUG: file_format_debug, 

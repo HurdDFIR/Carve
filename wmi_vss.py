@@ -87,13 +87,22 @@ class VSS():
             12: "ProviderFailure",
             13: "UnknownError"
         }
-
-        result, shadow_id = self._wmi_object.Win32_ShadowCopy.Create(
-            Context="ClientAccessible", Volume=f"{self._drive_root}"
-        )
-        l.debug(f"result: {result} | shadow_id: {shadow_id}")
-        if result != 0:
-            raise Exception(f"Failed to create shadow copy: {result_codes[result]}")
+        first = True
+        while True:
+            result, shadow_id = self._wmi_object.Win32_ShadowCopy.Create(
+                Context="ClientAccessible", Volume=f"{self._drive_root}"
+            )
+            if result == 9:
+                if first:
+                    l.debug(f"result: {result} | shadow_id: {shadow_id}")
+                first = False
+                continue
+            elif result == 0:
+                l.debug(f"result: {result} | shadow_id: {shadow_id}")
+                break
+            else:
+                l.debug(f"result: {result} | shadow_id: {shadow_id}")
+                raise Exception(f"Failed to create shadow copy: {result_codes[result]}")
 
         shadow_obj = self._wmi_object.Win32_ShadowCopy(ID=shadow_id)[0]
 

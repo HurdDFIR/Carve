@@ -31,6 +31,8 @@ def main():
                         help='Quiet logging. Writes full logs to the log file if available. Will still display error messages and warnings in the console.')
     optional.add_argument('--novss', dest='use_vss', action='store_false', default=True,
                         help='Turns off the usage of VSS for collecting locked files. The alternative is a low level copy that takes longer.')
+    optional.add_argument('--remove_base_root', dest='remove_base_root', action='store', default=None,
+                        help='Use this option if you want to remove a specifc prefix from the output path. E.g., Carving the file D:\\triage\\C\\windows\\system32\\winevt\\security.evtx will output to output\\d\\triage\\c\\windows\\system32\\winevt\\security.evtx. You can enter a value of D:\\triage to remove this from the output path, resulting in an output path of output\\C\\windows\\system32\\winevt\\security.evtx')
 
     args = parser.parse_args()
 
@@ -45,7 +47,7 @@ def main():
   \______  /\____|__  / |____|_  /   \__/   /_______  / \n\
          \/         \/         \/          @HurdDFIR\/ \n\
 ########################################################{bcolors.ENDC}')
-    print(args)
+    #print(args)
     if args.log_file:
         log_file = args.output_root + '\\' + args.log_file
     else:
@@ -60,9 +62,11 @@ def main():
     elif args.carve_files:
         triage_list = TriageListFile(file_paths=args.carve_files)
 
-    dest_files, failed_files = CarveFiles(
-        file_paths=triage_list.file_list, 
-        keep_dirstructure=args.keep_structure).carve_files(
+    if not triage_list:
+        l.error('Triage list is empty. No files to carve.')
+        exit()
+
+    dest_files, failed_files = CarveFiles(file_paths=triage_list.file_list,keep_dirstructure=args.keep_structure, remove_base_root=args.remove_base_root).carve_files(
             dest_root=args.output_root, use_vss=args.use_vss)
 
     if dest_files:
